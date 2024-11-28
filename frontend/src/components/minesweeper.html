@@ -1,0 +1,36 @@
+<div class="${getContainerClass()}">
+  <div class="game-board">
+    <div if.bind="showControls" class="status-bar">
+      <div class="flag-counter">
+        🚩 ${remainingFlags}
+      </div>
+      <button 
+        click.trigger="resetGame()"
+        class="reset-button">
+        ${gameOver ? (gameWon ? '🎉' : '😵') : '😊'} Reset
+      </button>
+    </div>
+
+    <div 
+      class="grid-container"
+      style="--board-size: ${boardSize};"
+      oncontextmenu="return false;">
+      <div 
+        repeat.for="row of board"
+        class="contents">
+        <div 
+          repeat.for="cell of row"
+          click.trigger="handleClick(cell.row, cell.col, $event)"
+          class="${getCellClass(cell)}"
+          data-row="${cell.row}"
+          data-col="${cell.col}">
+          ${cell.isRevealed ? (cell.isMine ? '💣' : (cell.neighborMines || '')) : (cell.isFlagged ? '🚩' : '')}
+        </div>
+      </div>
+    </div>
+
+    <div if.bind="gameOver && showControls" class="game-over-message ${gameWon ? 'win-message' : 'lose-message'}">
+      ${gameWon ? 'Congratulations! You won! 🎉' : 'Game Over! 💥'}
+    </div>
+  </div>
+</div> 

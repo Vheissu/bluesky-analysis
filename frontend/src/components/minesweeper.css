@@ -1,0 +1,138 @@
+.minesweeper-container {
+  @apply flex flex-col items-center p-6 select-none max-w-[800px] mx-auto min-h-full;
+}
+
+.minesweeper-compact {
+  @apply p-2 max-w-full h-full flex flex-col;
+}
+
+.minesweeper-compact .game-board {
+  @apply p-2 shadow-lg flex-1 flex flex-col;
+}
+
+.minesweeper-compact .status-bar {
+  @apply mb-2 px-2;
+}
+
+.game-board {
+  @apply bg-sky-100 p-6 rounded-xl shadow-2xl border-2 border-sky-200;
+}
+
+.status-bar {
+  @apply flex justify-between items-center mb-6 px-4;
+}
+
+.flag-counter {
+  @apply text-sky-700 font-bold text-xl bg-sky-50 py-2 px-4 rounded-lg shadow-inner;
+}
+
+.reset-button {
+  @apply px-6 py-3 bg-sky-500 text-white rounded-lg hover:bg-sky-600 
+         transition-all transform hover:scale-105 active:scale-95
+         font-semibold text-lg shadow-md;
+}
+
+.grid-container {
+  @apply grid gap-[2px] bg-sky-300 p-3 rounded-lg;
+  grid-template-columns: repeat(var(--board-size), minmax(0, 1fr));
+}
+
+.cell {
+  @apply flex items-center justify-center font-bold
+         cursor-pointer transition-all duration-150 rounded-sm
+         shadow-sm hover:shadow-md active:shadow-inner;
+}
+
+.cell-hidden {
+  @apply bg-gradient-to-br from-sky-400 to-sky-300
+         hover:from-sky-500 hover:to-sky-400;
+}
+
+.cell-flagged {
+  @apply bg-gradient-to-br from-sky-500 to-sky-400
+         hover:from-sky-600 hover:to-sky-500;
+}
+
+.cell-mine {
+  @apply bg-gradient-to-br from-red-500 to-red-600 text-white
+         animate-shake;
+}
+
+.cell-0 {
+  @apply bg-gradient-to-br from-sky-50 to-white;
+}
+
+.cell-1 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-blue-600;
+}
+
+.cell-2 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-green-600;
+}
+
+.cell-3 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-red-600;
+}
+
+.cell-4 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-blue-900;
+}
+
+.cell-5 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-red-900;
+}
+
+.cell-6 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-teal-600;
+}
+
+.cell-7 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-gray-900;
+}
+
+.cell-8 {
+  @apply bg-gradient-to-br from-sky-50 to-white text-gray-600;
+}
+
+.game-over-message {
+  @apply mt-6 text-center font-bold text-xl px-6 py-3 rounded-lg
+         animate-bounce;
+}
+
+.win-message {
+  @apply text-green-600 bg-green-50;
+}
+
+.lose-message {
+  @apply text-red-600 bg-red-50;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 3;
+}
+
+.cell-small {
+  @apply w-6 h-6 text-sm;
+}
+
+.cell-medium {
+  @apply w-8 h-8 text-base;
+}
+
+.cell-large {
+  @apply w-10 h-10 text-lg;
+}
+
+.minesweeper-compact .grid-container {
+  @apply gap-[1px] p-1 flex-1;
+  grid-template-columns: repeat(var(--board-size), 1fr);
+  grid-template-rows: repeat(var(--board-size), 1fr);
+  aspect-ratio: 1;
+}
+  

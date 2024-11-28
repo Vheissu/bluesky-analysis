@@ -1,0 +1,52 @@
+<template>
+    <import from="../resources/timestamp"></import>
+  <div class="container mx-auto p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Followers List -->
+      <div class="bg-white rounded-lg shadow p-4">
+        <h2 class="text-2xl font-bold mb-4">Followers (${totalFollowers})</h2>
+        <div class="space-y-4 h-[600px] overflow-y-auto" scroll.trigger="handleScroll($event)">
+          <div repeat.for="[did, follower] of displayedFollowers" class="flex items-center space-x-4">
+            <img if.bind="follower.avatar" src.bind="follower.avatar" alt.bind="follower.handle" 
+                 class="w-10 h-10 rounded-full">
+            <div class="flex-1">
+              <div class="font-semibold">${follower.displayName}</div>
+              <div class="text-gray-600"><a href="https://bsky.app/profile/${follower.handle}" external target="_blank">@${follower.handle}</a></div>
+            </div>
+          </div>
+          <div if.bind="displayedFollowers.length < totalFollowers" 
+               class="text-center py-4 text-gray-500">
+            Loading more followers...
+          </div>
+        </div>
+      </div>
+
+      <!-- Events Feed -->
+      <div class="bg-white rounded-lg shadow p-4">
+        <h2 class="text-2xl font-bold mb-4">Recent Activity</h2>
+        <div class="space-y-4 h-[600px] overflow-y-auto">
+          <div repeat.for="event of events" 
+               class="p-4 rounded-lg ${event.type === 'follow' ? 'bg-green-50' : 'bg-red-50'}">
+            <div class="flex items-center space-x-4">
+              <img if.bind="event.avatar" src.bind="event.avatar" alt.bind="event.handle" 
+                   class="w-10 h-10 rounded-full">
+              <div class="flex-1">
+                <div class="font-semibold">${event.displayName}</div>
+                <div class="text-gray-600"><a href="https://bsky.app/profile/${event.handle}" external target="_blank">@${event.handle}</a></div>
+                <div class="text-sm text-gray-500">
+                  ${event.type === 'follow' ? 'Started following' : 'Unfollowed'} 
+                  ${event.timestamp | timestamp}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button if.bind="currentPage < totalPages" 
+                click.trigger="loadMoreEvents()"
+                class="mt-4 w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          Load More Events
+        </button>
+      </div>
+    </div>
+  </div>
+</template> 
