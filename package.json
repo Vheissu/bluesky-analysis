@@ -9,9 +9,7 @@
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:frontend": "cd frontend && npm run start",
-    "start:backend": "cd backend && npm run start",
-    "install:all": "npm install && npm run install:packages",
-    "install:packages": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\""
+    "start:backend": "cd backend && npm run start"
   },
   "dependencies": {
     "concurrently": "latest"
