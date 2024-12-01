@@ -178,9 +178,12 @@ async function fetchInitialFollowers() {
 
     // Get existing followers from database
     const existingFollowers = getFollowers();
+    const lastCheck = statements.getLastCheck.get()?.value;
     const hadExistingFollowers = Object.keys(existingFollowers).length > 0;
     
     if (hadExistingFollowers) {
+      let newFollowerCount = 0;
+      
       // Compare with stored followers and create events for new ones
       for (const [did, data] of currentFollowers.entries()) {
         if (!existingFollowers[did]) {
@@ -196,8 +199,21 @@ async function fetchInitialFollowers() {
             avatar: data.avatar,
             description: data.description
           });
-          console.log(`New follower (initial fetch): ${data.handle}`);
+          newFollowerCount++;
         }
+      }
+
+      // If we have a last check time, report the changes since then
+      if (lastCheck) {
+        const lastCheckDate = new Date(lastCheck);
+        console.log(`Since last check (${lastCheckDate.toLocaleString()}):`);
+        console.log(`- New followers: ${newFollowerCount}`);
+        console.log(`- Current total: ${currentFollowers.size}`);
+        console.log(`- Previous total: ${Object.keys(existingFollowers).length}`);
+      }
+
+      if (newFollowerCount > 0) {
+        console.log(`Found ${newFollowerCount} new followers since last check`);
       }
     } else {
       // First run - just store all followers without creating events
@@ -206,6 +222,9 @@ async function fetchInitialFollowers() {
       }
       console.log(`First run - loaded ${currentFollowers.size} existing followers without creating events`);
     }
+
+    // Update last check timestamp
+    statements.setLastCheck.run(new Date().toISOString());
     
     isInitialFetchComplete = true;
     console.log('Initial follower fetch complete');
