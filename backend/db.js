@@ -31,6 +31,11 @@ db.exec(`
     description TEXT
   );
 
+  CREATE TABLE IF NOT EXISTS metadata (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+  );
+
   -- Index for faster queries on timestamp
   CREATE INDEX IF NOT EXISTS idx_follow_events_timestamp 
   ON follow_events(timestamp DESC);
@@ -81,7 +86,16 @@ const statements = {
 
   getFollowerCount: db.prepare(`
     SELECT COUNT(*) as count FROM followers
-  `)
+  `),
+
+  setLastCheck: db.prepare(`
+    INSERT OR REPLACE INTO metadata (key, value)
+    VALUES ('last_check', ?)
+  `),
+
+  getLastCheck: db.prepare(`
+    SELECT value FROM metadata WHERE key = 'last_check'
+  `),
 };
 
 module.exports = {
