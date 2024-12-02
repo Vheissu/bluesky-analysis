@@ -26,7 +26,10 @@ app.get('/api/debug/db', (req, res) => {
     const followerCount = statements.getFollowerCount.get().count;
     const eventCount = statements.getEventCount.get().count;
     const sampleFollowers = statements.getAllFollowers.all().slice(0, 5);
-    const sampleEvents = statements.getRecentEvents.all(5, 0);
+    const sampleEvents = statements.getRecentEvents.all({
+      limit: 5,
+      offset: 0
+    });
     
     res.json({
       followerCount,

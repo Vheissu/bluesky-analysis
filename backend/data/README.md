@@ -1,0 +1,1 @@
+This directory contains the database files. Do not remove it.
